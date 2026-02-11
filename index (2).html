@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deniz'e...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 90%;
+            margin: 40px;
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 80px 60px;
+            position: relative;
+            z-index: 1;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .step {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4em;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        .question {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        .message-text {
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.2em;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            font-size: 1.1em;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .continue-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 15px 40px;
+            font-size: 1em;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 40px auto 0;
+            display: block;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .continue-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .signature {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 60px;
+            font-size: 1.3em;
+            letter-spacing: 0.05em;
+        }
+
+        .progress {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9em;
+            letter-spacing: 0.1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 50px 30px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .question {
+                font-size: 1.5em;
+            }
+            
+            .message-text {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="progress" id="progress">1 / 7</div>
+
+        <!-- Step 1: Başlangıç -->
+        <div class="step active" data-step="1">
+            <h1>Deniz'e</h1>
+            <div class="subtitle">Bir mesajım var...</div>
+            <button class="continue-btn" onclick="nextStep()">Devam Et</button>
+        </div>
+
+        <!-- Step 2: İlk Soru -->
+        <div class="step" data-step="2">
+            <div class="question">Hiç söyleyemediğin bir şey oldu mu?</div>
+            <div class="options">
+                <button class="option-btn" onclick="nextStep()">Evet, çok kez...</button>
+                <button class="option-btn" onclick="nextStep()">Belki birkaç kez</button>
+                <button class="option-btn" onclick="nextStep()">Herkeste vardır</button>
+            </div>
+        </div>
+
+        <!-- Step 3: İkinci Soru -->
+        <div class="step" data-step="3">
+            <div class="question">Bazen bir insan, hayatına sessizce girip her şeyi değiştirebilir mi?</div>
+            <div class="options">
+                <button class="option-btn" onclick="nextStep()">Evet, olabilir</button>
+                <button class="option-btn" onclick="nextStep()">Belki öyledir</button>
+                <button class="option-btn" onclick="nextStep()">İlginç bir soru...</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Açılım -->
+        <div class="step" data-step="4">
+            <div class="message-text">
+                <span class="highlight">Deniz</span>, işte tam olarak bu oldu bana.
+                <br><br>
+                Senin varlığın benim için özel. Her anın değerli.
+            </div>
+            <button class="continue-btn" onclick="nextStep()">Devam Et</button>
+        </div>
+
+        <!-- Step 5: İtiraf -->
+        <div class="step" data-step="5">
+            <div class="message-text">
+                Belki şu an söylemem gereken zamanı değil.
+                <br><br>
+                Belki hiçbir zaman olmayacak.
+                <br><br>
+                Ama içimde tuttuğum bu duyguları en azından bu şekilde ifade etmek istedim.
+            </div>
+            <button class="continue-btn" onclick="nextStep()">Devam Et</button>
+        </div>
+
+        <!-- Step 6: Son Mesaj -->
+        <div class="step" data-step="6">
+            <div class="message-text">
+                Sen mutlu oldukça ben de mutluyum.
+                <br><br>
+                Hayatın her zaman güzel olsun, gülümsemeyi hiç bırakma.
+                <br><br>
+                Ve belki bir gün, zamanı geldiğinde, bunları yüzüne karşı da söyleyebilirim.
+            </div>
+            <button class="continue-btn" onclick="nextStep()">...</button>
+        </div>
+
+        <!-- Step 7: Final -->
+        <div class="step" data-step="7">
+            <div class="signature">
+                Seni düşünen biri
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 7;
+
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 100; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        function nextStep() {
+            if (currentStep >= totalSteps) return;
+
+            // Hide current step
+            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
+            
+            // Show next step
+            currentStep++;
+            document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
+            
+            // Update progress
+            document.getElementById('progress').textContent = `${currentStep} / ${totalSteps}`;
+        }
+    </script>
+</body>
+</html>
